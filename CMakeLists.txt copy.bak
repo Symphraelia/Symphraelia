@@ -1,0 +1,82 @@
+cmake_minimum_required(VERSION 3.10)
+project(push_tracker)
+
+set(CMAKE_CXX_STANDARD 17)
+
+
+# === ⚡ Insert here BEFORE add_subdirectory(external/opencv) ===
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native -mfma -mavx -mavx2 -mf16c -ffast-math")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -march=native -mfma -mavx -mavx2 -mf16c -ffast-math")
+
+# --- Raylib ---
+add_subdirectory(external/raylib)
+
+# --- OpenCV ---
+# OpenCV specific optimizations
+set(WITH_OPENCL ON CACHE BOOL "Enable OpenCL" FORCE)
+set(WITH_OPENCL_SVM ON CACHE BOOL "Enable OpenCL SVM" FORCE)
+set(WITH_OPENCL_D3D11_NV OFF CACHE BOOL "Disable D3D11 OpenCL interop" FORCE)
+set(WITH_OPENMP ON CACHE BOOL "Enable OpenMP multithreading" FORCE)
+set(WITH_PTHREADS_PF ON CACHE BOOL "Enable pthreads backend" FORCE)
+set(ENABLE_FAST_MATH ON CACHE BOOL "Enable fast math operations" FORCE)
+
+
+# Assume you have cloned external/opencv and external/opencv_contrib
+set(OPENCV_EXTRA_MODULES_PATH "${CMAKE_SOURCE_DIR}/external/opencv_contrib/modules")
+
+# Only build the parts of OpenCV we actually need (saves tons of compile time)s
+# --- OpenCV ---
+# NO opencv_world
+set(BUILD_LIST core,imgproc,highgui,imgcodecs,features2d,xfeatures2d,calib3d CACHE STRING "OpenCV modules to build")
+set(OPENCV_EXTRA_MODULES_PATH "${CMAKE_SOURCE_DIR}/external/opencv_contrib/modules")
+set(WITH_OPENCL ON CACHE BOOL "Enable OpenCL support" FORCE)
+set(BUILD_opencv_apps OFF CACHE BOOL "Disable OpenCV apps")
+set(BUILD_DOCS OFF CACHE BOOL "Disable OpenCV docs")
+set(BUILD_TESTS OFF CACHE BOOL "Disable OpenCV tests")
+set(BUILD_PERF_TESTS OFF CACHE BOOL "Disable OpenCV perf tests")
+set(BUILD_EXAMPLES OFF CACHE BOOL "Disable OpenCV examples")
+set(BUILD_opencv_python_bindings_generator OFF CACHE BOOL "Disable OpenCV Python bindings")
+
+add_subdirectory(external/opencv EXCLUDE_FROM_ALL)
+
+# --- OpenGL ---
+find_package(OpenGL REQUIRED)
+
+# --- Realsense2 ---
+find_package(realsense2 REQUIRED)
+
+# --- Include directories ---
+include_directories(
+    external/raylib/src
+    external/opencv/include
+    external/opencv/modules/core/include
+    external/opencv/modules/imgproc/include
+    external/opencv/modules/highgui/include
+    external/opencv/modules/imgcodecs/include
+    external/opencv/modules/features2d/include
+    external/opencv/modules/calib3d/include
+    external/opencv_contrib/modules/xfeatures2d/include
+    ${realsense2_INCLUDE_DIRS}
+)
+
+# --- Game executable ---
+add_executable(push_tracker
+    src/main.cpp
+    src/Tracker.cpp
+)
+
+# --- Link everything together ---
+target_link_libraries(push_tracker
+    raylib
+    opencv_core
+    opencv_imgproc
+    opencv_highgui
+    opencv_imgcodecs
+    opencv_features2d
+    opencv_xfeatures2d
+    ${OpenGL_LIBRARIES}
+    GL
+    realsense2
+)
+# Force OpenCV modules to build before your executable
+add_dependencies(push_tracker opencv_highgui)

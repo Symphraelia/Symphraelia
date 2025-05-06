@@ -1,0 +1,673 @@
+Project Idea: Game Center Style Real Non-Percussive Instrument Learning 音ゲーム Cabinet
+
+Idea Summary:
+-------------
+I hate practicing musical instruments, however I like games like 太鼓の達人 and GITADORA drummania. 
+which truly end up teaching you how to play percussion instruments, the taiko and drum kit respectively. 
+By playing along to songs through progressively more difficult percussive accompaniment you eventually master the instrument. 
+On youtube we can find Japanese 8 year olds who have completely mastered 太鼓の達人, 
+achiving 達人 (tatsujin) with 全良 (all good - every note hit with an accuracy of less than or equal to 25 milliseconds) 
+【太鼓の達人】ニジイロver.段位道場2022 虹枠金達人合格　【小3 】 https://www.youtube.com/watch?v=pHbPBnZKWE4 
+We can find similarly impressive videos for other Japanese game center 音ゲーム, 
+so it is clear that playing such a game can effectively lead to complete mastery of an instrument. 
+
+The problem is I would like this same learning style applied to non-percussive music. 
+Previous attempts at this were quite unsuccessful at helping anyone learn, see keyboardmania and synthesia, 
+as well as modern subscription based spin offs (melodics keys, Rocksmith+ keys). 
+The only successful one was Rocksmith (which is for guitar not keyboard, 
+however Rocksmith even though being dressed up as a game still ends up feeling like instrument practice, 
+not very fun and spontaneous learning like BEMANI's music game line up, IIDX, pop'n music, etc.
+
+They are all trying the same tired that failed in it's first attempt: keyboardmania. 
+However I have a relatively simple and innovative idea which finally solves this problem in a couple ways. 
+
+
+Solution 1: Physical Keyboard layout
+------------------------------------
+The first problem I noticed with keyboardmania is the usage of the traditional piano keyboard, 
+which I have always found to be an especially painful and unergonomic instrument to play.
+I discovered even famous classical composers thought the key layout was awful. 
+This sound game will teach you how to play real music using an isomorphic (hexagonal 2d button array) keyboard layout 
+much like those which can be found on button accordions. 
+
+The benefits of such a isomorphic layout (such as Wicki Hayden, Janko, chromatic button accordions) is as follows: 
+An isomorphic layout requires 12x less muscle memory, because every chord and scale is played with the same 
+finger layout shape/pattern no matter which key they are played in. 
+Other than far easier accompaniment and keychanges, this could potentially lead to 12x faster learning, 
+to put this into perspective, imagine someone putting in consistent effort on a isomorphic keyboard for 1 year 
+and achieving the same level of mastery of someone putting in the same amount of consistent effort on a piano for 12! 
+Also because there are two dimensions available rather than one, as with traditional piano,
+buttons can be packed more effiently into a smaller space.
+Piano players can often reach a 10th or an 11th with one hand, but how about a 32nd?
+This allows for one handed playing of root notes and chords that would be physically impossible on a traditioal piano.
+
+There are very few isomorphic keyboards on the market all being produced in small quantities and each costing a few thousand dollars. 
+So if I'm going to do this I'll have to make my own, the keyboard for my game will have 512 keys (4x midi channel) 
+which is far more keys than any isomorphic keyboard out there! 
+The keys will be around the size of those found on a typical computer typing keyboard. 
+
+Luckily I found a DIY project that does something extremely similar: https://www.koopinstruments.com/instrument-projects/melodicade-mx 
+This project however uses no PCB and is hand wired and uses cherry mx style mechanical keyboard switches with a hole cut 
+in the bottom of the plastic housing so that the switch plunger presses a microswitch below it for making the keys velocity sensitive. 
+
+I found this velocity sensitive switch solution to be pretty janky, so I looked online and found another amazing 3D printing project.
+Instead of cherry keyboard switches I will use the open source entirely 3d printed void magnetic levitating hall effect switches called "void switches" 
+for the prototype the final product will most likely use an injection molded version. https://github.com/riskable/void_switch 
+Since these switches are analog hall effect based switches we can detect the position of every key and therefore have velocity sensitivity. 
+These switches are also incredibly customizable everything from key travel to tactility can be adjusted. 
+
+It will have a stainless sheet metal top panel with more damage proof arcade type buttons that protects the key switches 
+from damage and keycaps being pulled out in the arcade environment. Every key will have a very bright highly fine tuneable RGB backlight. 
+The final product may use a pcie card to connect to the keyboard and a custom driver so that the keyboard 
+is ultra low latency and not limited to the midi usb pipeline. 
+
+I wanted 512 keys so 2 players could play 2 player songs side by side like in IIDX. 
+I was definitely considering home versions, I was thinking the entire keyboard could be broken up into 2 256 key 16x16 staggered key squares, 
+meaning the full sized arcade/pro model would be a 32 wide x 16 high. 
+
+If each keycap/switch and it's housing takes up 20x20mm (slightly larger than computer key grid spacing) 
+then the entire keyboard is only approximately 320x320mm. 
+This is something that is far more portable than any traditional piano keyboard, 
+you could stick it in a bag and take it with you and place it on a desk or on your lap. 
+It could also be modular in the sense that you could buy two of them and they would magnetically link together 
+thus allowing you to play with the full keyboard at home albeit a cheaper less durable version. 
+
+I think for the purposes of prototyping the 16x16 layout can be reduced by a quarter to an 8x8 layout, 
+which is the same number of playable keys launchpads and the ableton push has.
+However, unlike launchpads or the push the keys would be hexagonal and staggered. 
+In using an 8x8 layout I could design it in a modular way so that it just needs to be hooked up to more 8x8 layouts to make the full sized 512 key keyboard, 
+which would be 8 8x8 layouts in 2x4 grid. It would be easier to initially focus on crowdfunding and the consumer market 
+to avoid the prohibitively high initial development costs required by the arcade market. 
+
+However, the arcade market is the ultimate goal. 
+I want the game to be something that would cause people to adopt this keyboard over the traditional piano keyboard 
+as their primary musical instrument when playing or composing music. 
+
+
+As of now, it would be better to focus on a proof-of-concept build, 
+however 8x8 at 64 keys is not a good proof-of-concept worth designing hardware for, 
+since it is not large enough to truly take full advantage of the isomorphic properties, 
+ecause isomorphic keyboards have many repeated keys across the keyboard. 
+This is one of the main reasons why I chose such a large keyboard to begin with, 
+to get as large of a note range as possible out of the isomorphic layout. 
+If 8x8 and usb 2.0 high speed is all I need, I might as well use the Ableton Push 2 midi controller I have laying around for the proof of concept at that point. 
+It would at least demonstrate the camera setup and gameplay, showing me much more quickly how viable my vision is, 
+then I could put off hardware design until a little bit later. 
+
+
+Solution 2: Visual Notation Design
+----------------------------------
+
+Now with such a large keyboard how are we supposed to indicate in a simple unconfusing way which key needs to be pressed next? 
+
+This is the major problem which has caused all other piano keyboard learning rhythm games to fail. 
+Rhythm games require the person to quickly translate what is displayed on screen into action and then into muscle memory. 
+
+The longer it takes an inexperienced person to figure out the correct action to take before the note meets the judgement window, 
+the less approachable and fun the game becomes. 
+
+Most rhythm games avoid this problem by limiting the number of inputs, 
+for instance BEMANI music games are mostly limted to around 9 inputs 
+(pop'n music - 9 buttons, drummania - 9 drums, IIDX SP - 7 keys + turntable(up/down), sound voltex 5 keys + 2x knobs(up/down)), 
+and the very popular and approachable taiko no tatsujin has only two possible inputs. 
+
+The second approach is to make the controller and the onscreen notation closely resemble each other. 
+If you've ever played pop'n music on PSP vs the arcade you will know how how difficult PSP is to the arcade 
+simply because the button layout doesn't match what's on the screen. 
+Chunithm and Nostalgia place screen so close to the keyboard so that the keyboard could be considered part of the screen, 
+they removed the raised black keys, they don't require exact key precision so you only have to press a key in a general location. 
+
+Yet my game idea has 512 keys, and per key precision how am I supposed to compensate? 
+In JUBEAT 16 keys you can see exactly where your hands are on top of the screen and each key/button has a visual countdown timer, 
+there are other touch screen rhythm games are like this. 
+
+What if the player when the player looks up at the screen they can see exactly where their hands are in relation to the keyboard, 
+and then see directly through their hands to see what keys need to be pressed next? 
+Then it would be as simple and unconfusing as catching a ball in real life. 
+
+I thought of an optics setup which uses peppers ghost / beam splitter mirror for zero latency. 
+Both light emitting objects need to be the same reflected at both the same distance and angle from the mirror so that they overlap perfectly.
+If both objects are reflected at different distances when the viewing angle changes the images (screen contents & keyboard reflection) will misalign. 
+Here's how the optical setup would work: An angled beamsplitter mirror reflects the keyboard/the user's hands and makes clearance for the user's head. 
+A large screen/display behind the beamsplitter mirror is positioned at the exact same distance and direction as the reflection of the keyboard/hands. 
+The now combined overhead beamsplitter/display reflection is re-reflected into a mirror and back at the player, 
+thus correcting for the flipping of keyboard/hands reflection that occurred in the beamsplitter mirror. 
+This setup however takes up a great deal of physical space and some alignment precision, making it somewhat unwieldly and impractical. 
+This was a very cool and creative idea though.
+
+Also it should be noted that the way Rocksmith makes reading patterns easier is by zooming into sections of the fretboard,
+this would not be possible with this purely optical setup. 
+However zooming may not be needed if the user can see their transparent hands over the keyboard, it would become more like a game of precise whack-a-mole.
+
+Just using cameras would be far better especially for prototyping. Not to mention it would still be required for alignment on the full model. 
+I've heard of xbox kinect perhaps this sort of depth camera technology could be used for detecting the hand's positions in relation to the keyboard keys, 
+and displaying them on screen in a pseudo-VR / AR way. (update I'm using an Intel RealSense D415)
+
+Anyways this will provide an onscreen transparent overlay of your hands on the keyboard while the screen positions notes moving 
+in 3d space following a line towards the specific keyboard key that should be pressed much like rocksmith, 
+except you can see where your fingers are as if you were looking down at your hands, 
+and no terrible guitar analog digital conversion latency, and with IIDX judge windows. 
+
+We can also use slowly closing circles around the keys (like osu) or clock/pie chart timers (like in project diva) as another way of keeping the 
+player aware of timing and as a way of directing the focus from the peripheral vision towards which keys need to be pressed next. 
+
+Usually a rhythm game would require a large music production team, however we can at first convert bms files 
+(or also some copyright free midi such as touhou and classical music), then make a user generated content selection. 
+If the software is open source, I'm sure nobody will complain since I'll be only selling the hardware setup, 
+and providing a score saving/multiplayer network service. 
+
+
+With both an easier to learn keyboard, and the ability to see one's hands in relation to the keys and oncoming notation in-game, 
+I am sure it will work better than JUBEAT and large touchscreen rhythm games, 
+because you are able to see through your hands and arms which would otherwise be blocking your view. 
+JUBEAT and large touchscreen rhythm games work around this visual blockage by either making the buttons really large (JUBEAT), 
+or spacing the virtual buttons really far apart and arranging the chart to make sure they are not beneath the users hands or arms. 
+If one's hands and arms are see-through transparent this is no longer an issue. 
+
+You brought up an important point about not being able to detect if your hands are overlapping, 
+but clear onscreen visual indicators and audio indicators (note sounds) of which notes are being pressed can remediate this issue to a degree. 
+An heat camera or depth camera could be able to detect the heat signature of and shape of the hands from above, 
+and this may be good enough, but maybe there is some way of detecting the shape of the hands from below, from the keyboard itself. 
+
+
+Other Features to Improve Approachability:
+------------------------------------------
+
+Adlibbing should be allowed, meaning there should be no penalty for playing keys when there are no notes. 
+Louder audio for the notes the player presses together with penalizing marginally 
+too early key presses will condition the player to play the correct notes and not just mash keys.
+
+
+To make it more approachable to beginners I have thought of a few ways: 
+
+1. Limit the total notes played in beginner songs, so they are only periodically "filling in the blank"  for a few keys across the entire score. 
+The keys that are never played in the beginner score can be visually darkened to show they are inactive or not included. 
+The easiest beginner charts in pop'n music are the same way, they only include 3 or 4 of the buttons across the whole chart 
+in order to gradually familiarize the user with the total range of buttons and their respective positions. 
+
+2. Limit the total number of octaves by collapsing the various notes to be played into one octave, 
+so that different notes across different octaves use the same octave. 
+In the beginning, all the notes from different octaves use the same 12 keys, where the other keys are blanked out and only same repeating keys are show/visible. 
+hese isomorphic layouts do use repeating keys no matter what to ensure every chord and every scale can be played in the exact same way. So even though it's 512 keys, 
+in reality there's only a repeating set of 12 keys in different locations across the keyboard. Meaning it's only 3 more keys than pop'n music. 
+
+3. Start with only single keys chords are gradually introduced. From here both the number of distinct octaves, keys, 
+and key combinations/chords used increases as the difficulty level increases. 
+For note judgement for beginners I was thinking about using rigid windows, however I was thinking that you could just have two windows pass/fail 
+and then count the millisecond accuracy within the pass window which then you can use to deduct from a total percentage based score which is a display of user accuracy. 
+And also display all sorts of judgement statistical visualizations on the results screen.
+
+4. Rocksmith zooms in on smaller sections of the fret board making the notation in those sections easier to see and understand.
+Perhaps this zooming functionality could be integrated into this game.
+
+
+Charting Ideas:
+---------------
+
+For charts specification, I want them to be very flexible: 
+First there will be a list of measures each which spans a certain number of beats which can be expressed as a fraction. 
+Then the time the measure takes is defined by beats per minute. So a measure could take 14/8ths beats. 
+I want to be able to have a list of measures which one can position notes using fractions as positions. 
+For instance, if you want to a note to appear three quarters the way through the measure you write 3/4 as that's note's position property. 
+I want there to be dynamic parameter modifiers like in renoise for glitchy effects and stuff. 
+Notes can be either playable, or non-playable (aka BGM), and either trigger a sampler to play something (key sound), 
+a dynamic parameter modifier which can tween parameters in various ways, 
+or a real time synthesized sound using faust or some other real time audio engine: https://faust.grame.fr/ 
+
+I also want it to support algorithmic or AI generated compositions that you can specify for a set of measures, which would be useful for imitating improvised solos. 
+The main chart could be in an object notation such as JSON and reference various synth, sampler, and algorithmic composition definition files. 
+The sampler definition file would reference various sound files or sound fonts for various instruments. 
+The synth definition file would have various synth definitions written in faust. 
+The algorithmic composition file would contain code for various algorithmic compositions to be applied to various measures. 
+The sampler should support granular synthesis allowing for all sorts of crazy audio effects if the chart creator desires. 
+This way, once a simple user interface is created, a music producers could use this as a DAW.
+
+Here's how timings would work you create a list of measures each with it's own length in beats expressed as a fraction. 
+Then the notes contained in each measure are also fractional numbers between 0 and one. 
+This way timings are very free form.
+
+- **Microtiming & Groove Adjustments**: Since all notes are fractional within their measure, performers and composers can **shift timing naturally**, creating **swing, groove, or fluid tempo shifts**.
+- **Adaptive Polymeter & Polytempo**: Each measure could function **independently**, allowing for **nested time structures**, making it possible to have something like **5/7 over 4/9 without artificial restrictions**.
+- **Algorithmic Generation of Rhythmic Variations**: The game could even allow for **evolving rhythm structures**, where beats **morph in real-time** based on player actions.
+
+
+I'm thinking in the beginning to just have the chart file format independent of an editor in something like JSON5, 
+all chart editing will be through text, 
+but having the game hot reload upon chart changes so players can see results instantly. 
+Real DAWs are complex to make, but text editing with live game updates is easy.
+
+
+"Would there be different **track layers** in the JSON5 format (e.g., separate timing layers for melody, harmony, percussion, etc.), 
+or would it be a **flat list of events**?"
+
+Layers are just a way of organizing events into categories, instead of this, 
+I like the pattern/playlist system where there can be easily reusable components, 
+this removes redundancy in the file, and provide a way for organizing instruments if the user wants. 
+patterns are described in terms of a list of measures each with a length in beats expressed as a fraction (which the current bpm calculates the length). 
+Then a list of events (automation, sampler/synth triggers), each event belongs to a given measure and it's position within the measure is expressed as a fraction between 0 and 1. 
+for example measure: 7 position: 4/5. Each pattern can be specified as an AI generation or algorithm, 
+or explicitly written like previously stated, when timing/position for an event within a patter is explicitly stated, 
+note values can still be algorithmically generated. 
+The playlist is just a list of measures with the same format as the measures in a pattern, 
+then a list of patterns ordered by measure number and position fraction.
+
+- **Human-readable and easy to modify**: Unlike binary formats, users can directly tweak values.
+- **Supports comments and trailing commas**: Making it much cleaner to work with than strict JSON.
+- **Hot-reloading enables real-time feedback**: Players can **immediately see how timing changes affect gameplay**.
+- **Easy to extend**: You can add new fields (e.g., synthesis parameters, AI improvisation logic) without breaking compatibility.
+
+- **Reusability & Efficiency**: Since patterns can be used multiple times across different measures, complex structures can be built with minimal redundancy.
+- **Algorithmic & AI Generation Support**: The ability to mix explicitly written events with algorithmic elements **enables controlled improvisation**.
+- **Precision & Flexibility**: Expressing positions as fractions maintains **free-form timing**, allowing **polymeter, nested rhythms, and evolving temporal structures**.
+
+I was just thinking why have a playlist, but rather only patterns that contain more patterns or events, beginning with a root pattern. 
+Live Pattern Manipulation: I was thinking conditional pattern branches (to less/more difficult patterns), 
+based on player performance (note accuracy), or simply random branches. 
+I can't really conceptualize how note overrides would work, 
+it seems like it would mess up the AI/Algorithm to integrate them properly or something. 
+Yes I was also considering automation events that modulate synths to be built right in, 
+and whether you assign a key trigger to them is optional. 
+Which makes me think that there might be a mod slider on this keyboard. 
+Note mappings: most music will probably be in 12TET however since I would like microtonal support (for high difficulty play) 
+and there are many different layouts and many different microtonal systems I'll need a pitch to key mapping system. 
+I'm wondering if I should go with a layout file approach or a rounding to closest approximate key pitch approach allowing users 
+who are familiar with a certain layout to play all other songs. 
+But the downside for that is if the pitch differences are very subtle the player may just end up playing 
+a lot of repeating notes or the song would have very awkward or impossible fingerings 
+actually this shouldn't matter very much since the game should also allow players to switch to different keyboard layouts/mappings 
+and have a recommended layout/mapping for each song. Actually this way the approximate pitch approach seems the most universal, 
+though you should allow people to specify custom mappings per track, 
+or select from the prexisting library for which one allows best representation and playability. 
+This custom mapping approach could also allow for sections of the keyboard to be used as a percussive drumpad/launchpad, 
+while other sections of the keyboard can be used for melodies. The main important factor here is that the frequencies/keysounds 
+assigned to notes should remain statically assigned otherwise you aren't playing real music.
+
+1. **Root Pattern Over Playlists** – This **simplifies organization** while still allowing for **hierarchical structure**, making it easier to compose **both linear and adaptive charts**.
+2. **Live Pattern Manipulation (Branching Difficulty & Randomization)** – This creates **dynamic difficulty scaling**, a feature that could revolutionize how rhythm games handle progression.
+3. **Static Key-Pitch Assignment** – **Critical for real music learning**. Without it, the system would become **too game-like**, reducing its value as an actual instrument.
+4. **Pitch-to-Key Mapping Strategy** – The **"round to closest key" approach** ensures that **players can use familiar layouts while still accommodating microtonal tunings**, making it **the most universal solution**.
+
+
+This is kinda my inspiration for a 512 key isomorphic keyboard rhythm game, where one learns real music. 
+Because other tuning systems can be used on a 512 key keyboard, if there was a BMS like scene for something like this, 
+and the game taught real music, there would be an explosion of highly unique music. I
+I wanted the rhythm game charting system to be almost like a DAW in of itself, 
+allowing for all sorts of crazy modifiers like you find in trackers like Renoise, 
+while also integrating a very complex sampler with all sorts of granular synthesis options, 
+faust for synthesis, and AI/Algorithmic "improv" chart sections.
+
+
+Visual Effects and GUI
+----------------------
+
+I want to have the ability to have many types of visual FX.
+The visual aesthetic I have in mind: 
+- animated liquid simulation shaders that imitate water marbling or gasoline rainbows on water
+- pixel shifting disolving transition screens
+- IIDX style cyber mech-style machinery 2.5D or 2D graphics and animations
+- custom shaders for backgrounds behind oncoming notes in the 3D scene
+(optional) I am really curious how Sound Voltex does those sophisticated 3Dish animated anime girl mascot models, 
+I guess VTuber style tech though it looks much better, though this sort of artwork seems a bit work intensive (unless I generate it with AI).
+
+
+
+Here's something from when I was working on a taiko clone however a lot of the layout still applies to this game.
+
+Song Select Improvements:
+    
+    -> actually I want it so that even if there's only one object it scrolls as if there were many
+    
+    -> I should get audio previews working in the song selection scene
+    I would like to get song previews working in the song select scene,
+    I want the preview to load very close to instantaneously.
+
+    -> Options and difficulty select overlay
+    Get difficulty selection working (partly complete)
+
+    -> Make LoadItemBoxes be called by the hotreload handler when the layout.json5 changes
+    -> scrolling acceleration Keyboard repeat delay scroll progressively faster through items 
+    -> More folderBoxes AND utils functionality!!
+            recently added songs
+            last 30 songs played by user
+            last 30 songs played on cabinet 
+            most played (cabinet) -> 50 most played songs on the cabinet
+            most played (world) -> 50 most played songs on the server database
+            2 player song folder -> songs that have 2 versions for 2 or more players
+            branching songs folder -> songs that have arrangement branches
+            Net Play folder -> lobby of songs to join random other people in to boost ranking
+
+        random song -> selects a random song from current folder
+        search -> launches a search box overlay
+        settings -> launches a settings page (can probably be a folder with a bunch of utilities)
+        tutorial -> launches the tutorial
+        game mode change -> there are going to be different game modes such as dan dojo
+
+browser game objects
+    countdown timer -> displays a countdown timer for song selection
+    charts played this session counter
+    coins inserted -> COIN(S) 0 at the bottom of the screen
+    user's best score and ranking placement for chart
+    usability prompts -> animated sprites that show how to navigate which buttons to press etc.
+    player title -> displays logged in player(s) name, title, rank, and controller they are using (P1/P2)
+    background -> can be an animated scrolling image, video, or even a shader which can change depending on the item selected
+    itembox:
+        itembox container (expands out left and right when selected to encapsulate item contents)
+        itembox title
+        icon bubble (turn on/off) - a small speech-like bubble that contains a descriptive icon next to the item
+        itembox theme - a collection of various gradients, colors, and textures used to decorate the item box
+        chart -> the actual charts
+            subtitle(fade in/out) (always positioned relative to title's position)
+            difficulty info
+        folder -> an associative category for charts
+            tab (turn on/off)
+            tab header (stretches up)
+            tab title
+            container
+            total songs in folder
+            cover (an image for the ) (fade in/out)
+            audio description -> audio description that plays upon selection of folder
+        => some folders might be autogenerated collections not associative categories
+           maybe add extra features to "box.def"s to generate these sorts of folders from functions in the codebase
+            examples: 
+                recently added songs
+                last 30 songs played by user
+                last 30 songs played on cabinet 
+                most played cabinet -> 50 most played songs on the cabinet
+                most played world -> 50 most played songs on the server database
+                2 player song folder -> songs that have 2 versions for 2 or more players
+                branching songs folder -> songs that have branches
+                Net Play folder -> lobby of songs to join random other people in to boost ranking
+                All songs -> instead of displaying all songs at the top of the hierarchy keep them in this folder
+        utility -> an itembox that can looks like a folder except without a tab that runs a custom function when selected perhaps switching a scene
+            custom action
+            location
+                global -> (boolean) include inside every folder except the top of the "heirarchy"
+                top -> (boolean) include at the top of the "heirarchy"
+            examples:
+                go back
+                random song
+                search
+                settings
+                tutorial
+                game mode change
+                difficulty sort
+
+        
+folders lists
+    inside every folder:
+        back folder
+        random song folder
+        difficulty sort folder
+        alphabetical sort folder
+
+    top of heirarchy only:
+        game settings folder
+        recently added songs
+        last 30 songs played by user
+        last 30 songs played on cabinet 
+        most played cabinet -> most played songs on the cabinet
+        most played world -> most played songs on the server database
+        2 player song folder -> songs that have 2 versions for 2 or more players
+        branching songs folder -> songs that have branches
+        play by cabinet folder -> list of cabinets and the songs on them
+        Net Play folder -> lobby of songs to join random other people in to boost ranking
+        Dan Dojo folder -> very specific song selection menu with particular appearance
+
+    Category folders:
+
+
+Gameplay Scene Improvements:
+    -> Hit detection and visual hit box indicator animations
+    -> turn auto on and off
+    -> actually play the music (ability to turn off bgm or taiko sfx maybe volume control in settings)
+    -> get the current measure to stay centered and have glide animation when moving measure by measure.
+    -> play an empty measure whenever you play at a certain part, starting playback in practice/viewer mode
+    -> Loop sections of chart and slowdown playback
+    -> drag&drop tja files into the window or specify them as a command line argument to load them 
+    this will immediately put you into viewer/practice mode
+
+-> ADD MORE SCENES!!!
+game loading scene (for database, network, game assets, peripherals/controllers)
+an attract/opening title scene
+results screen
+a online login/payment scene
+
+attract/demo
+login (enter pin)
+add credits ()
+selection screen -  always premium free, pay as you go, 
+					play time drains credits ($60 for 30 days if playing 6 hours every day (1/3 of a dollar per hour)), 
+					second player can log in and jump in at any time at the arcade 
+					(different skill categories for a single chart, different parts for multiple players).
+	
+	songs folder - will always bring you back to last song played
+		reccomended
+		history
+		skill level
+			random (picks a random song from current skill level folder)
+		name
+			sort folder/button (alphabet, skill level, date)
+		artist
+			sort folder/button (alphabet, skill level, date)
+		style (genre tags)
+			sort folder/button (alphabet, skill level, date)
+		clear%
+			unplayed
+				sort folder/button (alphabet, skill level, date)
+			(0 - 95%)
+			Full Combo
+			Perfect
+			MAX
+	arena lobby folder (compete against others online or local)
+	conquest folder
+		(special challenges to unlock higher levels, extra songs, ranks etc.)
+	settings
+		scroll speed multiplier
+		game mode:
+			practice:
+				song speed multiplier
+				limit octaves
+		
+		randomize notes (AI improvization)
+		select scale (microtonal scales)
+		played instrument/BGM audio ratio
+		tight judge window mode
+	add credits
+	exit game
+gameplay
+	normal mode:
+	arena mode:
+	practice mode:
+results screen
+gameover
+
+
+DATABASE UPDATE AND FIXED!!!!
+Okay I've noticed that there's some functionality that causes songs/folders to disappear when the DB is reloaded if they are edited. 
+Also I store the program files on a portable hard drive so when I moved to a different computer since the drive letter of portable hard drive changed the database reloaded everything and no songs appeared. It might be partly due to using absolute paths rather than relative paths
+(investigate!!) get database to check for and update changed files or something because when I edit the test tja it disappears upon restart.
+Logically there can't be two different files (different hashes) with the exact same file path in the filesystem.
+So I'm going to create a truth table to determine what should be done: 1 = match, 0 = no match, h = hash, p = path
+h p
+0 0 = new file -> add to database
+0 1 = changed file -> update database entry hash and metadata
+1 0 = moved file -> update database entry path
+1 1 = skip file -> no changes
+Actually there's something about how the moved files should be handled 
+since the same file can be in multiple folders due to symbolic links.
+So although there can't be different files with the exact same file path  
+there can be the exact same file with different file paths.
+It would probably break many parts of my program causing many revisions 
+if I were to change the database schema to accomodate for multiple file_paths.
+Instead, it's far more convenient to have just one path that I can access the file at,
+other paths should just add more folder_songs entries without changing the file_path.
+So in order to accomplish this, 
+I think we first need to check if there is the same song file at the last known path.
+1. There is no file at the last known path: delete the old folder_songs entry (the file has moved for certain)
+2. the file has the same hash: keep the old folder_songs entry (the exact same file is in two locations)
+3. the file has different hash: delete the old folder_songs entry 
+    (the file will be updated later and recieve a different folder_songs entry tied to a new song index)
+But there might be something I'm forgetting here in that I might cause a loop, 
+wherein the program cannot find the current tja file's path present in the database
+so then it looks in the database for the hash of the current tja file,
+it then updates the path in the database to match the current tja file's path,
+the file has the same hash so it keeps the old folder_song's entry,
+actually I suppose this wouldn't loop instead it would just alternate the file path of that song each time the database is loaded.
+But I don't think this file_path alternation is desirable, 
+so updating of the file_path should only occur if the file doesn't exist or the hashes are different, not the same.
+
+
+Generalized Hotreload Layouts and Queries COMPLETE!
+Would it be possible to generate structs that are only defined in JSON?
+Adding extra if statements is dumb
+Something about this codebase has become too inflexible.
+It requires addressing too many edge cases, 
+such as when autogen folders generate other autogen folders.
+I don't want to use an if statement to attempt to sidestep every exception.
+I also want a way that a user could rearrange
+The songboxes a folderbox includes
+Additionally, each folderbox can be set to explicitly include, 
+or explicitly exclude certain folderboxes or utilityboxes 
+a folderbox or utilitybox can be set to be globally included in every folderbox
+except those that explicitly exclude it
+Furthermore, the folder box can set all it's children to explicitly exclude certain folderboxes or utilities
+And then put them in one unified struct
+create the various stucts QueryConfig FolderConfig Utility Layout
+Yay, it finally works, thank you, okay, upon reviewing the code, 
+I would like to figure out a more generalized way of dealing with this type of autogenerated, 
+autogenerated folderBox, so that there could even be autogenerated, autogenerated, autogenerated folderBoxes and so on. 
+What are some possible solutions? 
+I was thinking each folder could have an list of children utilityBoxes and 
+folderBoxes it explicitly includes and one list that it explicitly excludes. 
+This explicit inclusion or exclusion also extends to all the folders children, 
+until one of the children explicitly includes or excludes them at which point the 
+inclusion or exclusion extends to all it's children. 
+Also a folderBox or utilityBox can be set to be globally included in every folderBox, 
+though there still needs to be a way of excluding things explicitly from the root directory. 
+For any folderBoxes you want to autogenerate, 
+they can just be added to the list of pointers to folderBoxes that folder explicitly includes, 
+from which their autogeneration functions can be called.
+Come up with a generalized way of doing LoadItemBoxes()
+A way of handling sets of boxes and saying what 
+songBoxes it includes based off a database query
+and what folders and utilities it includes.
+I'm currently working on a song selection, associative virtual folder, and menu system for a rhythm game using golang and raylib.
+It consists of a long list of itemBoxes which have the following types:
+UtilityBox - Executes a custom function to change the game state in some way.
+    examples:
+        go back -> go back to previous folder
+        random song -> selects a random song from current folder
+        search -> launches a search box
+        settings -> launches a settings page
+        tutorial -> launches the tutorial
+        game mode change -> there are going to be different game modes such as dan dojo
+        difficulty sort -> groups songs inside folder into respective diffculty folders labeled 1★ to 10★
+
+FolderBox - Contains a collection of songs, there are two types associative categories (partly derived from the filesystem) and autogenerated collections (derived from a database query or some function)
+    1. Many songs to many folders associative categories aka genre tags
+        examples:
+            j-pop
+            anime
+            vocaloid
+            children and folk
+            variety
+            game music
+            classical
+            namco original
+            touhou songs
+            idolm@ster songs
+        The same song can be inside multiple folders at once.
+        Category folders just like songs can be inside multiple folders at once.
+
+    2. Autogenerated collections based on chart metadata or some other function
+            recently added songs
+            last 30 songs recently played by user
+            most played (cabinet) -> 50 most played songs on the cabinet
+            most played (world) -> 50 most played songs on the server database
+            2 player song folder -> songs that have 2 versions for 2 or more players
+            branching songs folder -> songs that have arrangement branches
+            Net Play folder -> lobby of songs to join random other people in to boost ranking
+            Difficulty folder -> contains all songs of a given difficulty
+            All songs -> instead of displaying all songs at the top of the hierarchy keep them in this folder
+SongBox - contains a song 
+
+
+
+Overall Vision For The Game:
+----------------------------
+
+"Convincing Music Learners
+
+Many potential learners want to develop skills that easily transfer to standard pianos or guitars. 
+They might be hesitant about devoting time to a “non-traditional” layout if they’re not sure it’ll be widely supported outside your system.
+Many people want to learn piano on a traditional piano layout. You’ll need strong messaging on why the isomorphic layout is better/faster to learn.
+Even with the 12x muscle memory advantage, the isomorphic layout remains unfamiliar to the mainstream." 
+
+I tried out melodics for a while to attempt to learn finger drumming and the piano and found it to be horrible.
+The music sucked, and the entire application seemed designed to prevent you from learning anything, 
+(I'm assuming so that you keep paying a subscription for as long as possible without learning anything)
+the notation constantly reassigned keys to note lanes randomly, and the drum sounds wre always in different spots. 
+I remember seeing a livestream with the owner of melodics was trying to play charts on his own software, he was way worse than me! 
+And then he said something that really bothered me, that his goal was to stay away from gamification and pursue education,
+and get into the musical education field, bringing the software into schools and such.
+As if learning and play are separate things, having gone through "public education", I can say I've learned nothing from "education",
+and learned everything I know today from playing or fooling around. 
+Play is simulation, it's the only way to learn, there is no distinction between learning and play.
+You don't learn from being taught, you only practice imitating the teacher.
+
+So no, this is not going to be "educational software" or "edutainment", this is going to be a game pure and simple, 
+that just so happens to improve your musical abilities and has you playing a real instrument.
+With this all I need to do is convince someone that it is fun, cool, and next gen. 
+I want the game to be exactly as enjoyable as playing an arcade rhythm game like IIDX, 
+rocksmith doesn't manage to accomplish this and ends up feeling far more like guitar practice than an actual arcade rhythm game. 
+I want the focus to be more on it being a fun game that looks really cool when people play it, rather than "educational" software. 
+
+I don't care about "lessons" or "practice", though perhaps it could include freeform algorithmically composed "charts" 
+in different improvised styles (neo-classical, jazz) that change every time one plays them. 
+Main point being, I want a focus on novelty, I want to avoid all monotonous repetition in this game and focus almost entirely on fun and appeal. 
+
+The "real instrument learning system" should be mentioned but "learning" or "education" should not overshadow the game aspect, 
+first and foremost this is a game. 
+
+I want to avoid targeting a market that only cares about "learning" the piano or guitar, I do not want to advertise this as purely "educational", 
+instead I want to target people who are music makers (the same people who would buy a DJ controller, launchpad, or ableton push) 
+and enthusiast rhythm game players especially those who play IIDX/BMS. 
+
+Later on, once it has been accepted by these groups of people as a well liked and viable instrument, it can aim for more widespread appeal as a new paradigm. 
+It should attract onlookers, much like how people playing pianos in public attract large audiences. 
+
+
+"Posture & Fingering
+
+Because isomorphic layouts reduce the complexity of fingerings from a pitch perspective, 
+you still need to teach ergonomic finger usage, hand positioning, etc. For truly learning an instrument, you can’t ignore technique.
+Potentially, you could add on-screen prompts for which finger to use if the user chooses a “guided fingering” mode."
+
+
+If technqiue is so essential how is it that IIDX players have naturally converged on ideal techiques for playing?
+Technique like anything emerged through trial and error, this game isn't about teaching, it's about learning through play.
+The retarded tutorial sections in games are the worst, and pushing proper fingering would just make the whole game a tutorial, blech.
+The only tutorial should be the attract mode, where it shows the gameplay and the user can try pressing keys 
+and see how the game responds, before they put in any money.
+
+
+"Ergonomic & Repetitive Stress
+
+An isomorphic layout might be simpler cognitively, but you need to ensure it’s comfortable physically. 
+Large vertical/horizontal reaches, repetitive motions—some form of ergonomics study is necessary."
+
+
+Something should be said about ergonomics, I find the best ergonomics come from when the hand is in line with the forearm
+and the wrist is unbent. I've noticed this is how people drum on the launchpad to prevent repretitive stress injury. 
+This means for the arcade game that the keyboard should be tilted away from the user.
+
+"High Production Cost & Low Margins
+
+Custom hardware at this scale is expensive. Without significant volume, your per-unit cost might be high, making it risky to develop for a niche market.
+Commercial arcade operators invest in machines that are proven to attract mainstream crowds. A novel large machine might be a hit only in specialized or enthusiast arcades."
+
+This is going to be an entirely 3D printed project starting out, everyone will print their own, or I can sell printed assembled keyboards for them.
+It won't be risky once I interest enough people who want to crowdfund its manufacturing costs from my working prototype demonstrations.
+
+
+

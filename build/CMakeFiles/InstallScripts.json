@@ -1,0 +1,11 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/nano/gameproofofconcept/build/cmake_install.cmake",
+		"/home/nano/gameproofofconcept/build/external/raylib/cmake_install.cmake",
+		"/home/nano/gameproofofconcept/build/external/raylib/raylib/cmake_install.cmake",
+		"/home/nano/gameproofofconcept/build/external/raylib/raylib/external/glfw/cmake_install.cmake",
+		"/home/nano/gameproofofconcept/build/external/raylib/raylib/external/glfw/src/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
