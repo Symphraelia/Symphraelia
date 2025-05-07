@@ -23,7 +23,7 @@ Actual hardware design will take place later.
 ## Software Dependencies
 ```bash
 6.14.4-artix1-1, gcc 15.1.1, CMake 4.0.1-dirty
-raylib 5.0-dev  (system pkg)
+Custom Raylib (included in external/raylib, modified for pinhole camera support — no system install required)
 OpenCV 4.11.0     (built with opencv_contrib)
 Eigen3 3.4.0-2
 librealsense 2.55.1 
